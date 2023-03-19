@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>toDoList</title>
+    </head>
+    <body>
+        <h1>list of stuff do</h1>
+        <div id="list"></div>
+        <input type="textbox" id="task" placeholder="write task">
+        <input type="button" value="add" id="addButton">
+        <input type="button" value="delete" id="deleteButton">
+        <script>
+            const addButton = document.getElementById("addButton");
+            const task = document.getElementById("task");
+            task.addEventListener("keydown", checkKey);
+            addButton.addEventListener("click", addTask);
+            function checkKey(evt) {
+                if (evt.key === "Enter") {
+                    addTask();
+                }
+            }
+            function addTask() {
+                const task = document.getElementById("task");
+                const list = document.getElementById("list");
+                const listElement = document.createElement("div");
+                listElement.className = "listElement";
+                const listCheckbox = document.createElement("input");
+                listCheckbox.name = task.value;
+                listCheckbox.id = task.value;
+                listCheckbox.type = "checkbox";
+                const listLabel = document.createElement("label");
+                listLabel.for = task.value;
+                listLabel.innerHTML = task.value;
+                list.appendChild(listElement);
+                listElement.appendChild(listCheckbox);
+                listElement.appendChild(listLabel);
+                task.value = "";
+                listCheckbox.addEventListener("click", setAsDone);
+                function setAsDone(evt) {
+                    evt.currentTarget.status="complete";
+                }
+            }
+            const deleteButton = document.getElementById("deleteButton");
+            deleteButton.addEventListener("click", deleteTask);
+            function deleteTask() {
+                const tasks = document.querySelectorAll(".listElement");
+                tasks.forEach(task => {
+                    const listCheckbox = task.firstChild;
+                    if (listCheckbox.status == "complete") {
+                        task.remove();
+                    }
+                });
+            }
+
+        </script>
+    </body>
+</html>
